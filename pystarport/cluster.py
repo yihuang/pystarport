@@ -941,6 +941,7 @@ def init_cluster(
         init_devnet(
             data_dir / chain["chain_id"], chain, base_port, image, cmd, gen_compose_file
         )
+        base_port += len(chain["validators"])
     with (data_dir / SUPERVISOR_CONFIG_FILE).open("w") as fp:
         write_ini(
             fp,
