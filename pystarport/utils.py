@@ -8,14 +8,17 @@ def interact(cmd, ignore_error=False, input=None, **kwargs):
         cmd,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         shell=True,
         **kwargs,
     )
     # begin = time.perf_counter()
-    (stdout, _) = proc.communicate(input=input)
+    (stdout, stderr) = proc.communicate(input=input)
     # print('[%.02f] %s' % (time.perf_counter() - begin, cmd))
     if not ignore_error:
-        assert proc.returncode == 0, f'{stdout.decode("utf-8")} ({cmd})'
+        assert (
+            proc.returncode == 0
+        ), f'{stdout.decode("utf-8")} {stderr.decode("utf-8")} ({cmd})'
     return stdout
 
 
